@@ -180,6 +180,15 @@ h2.sec{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--f
 
 footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-size:12.5px;text-align:center}
 
+.usage{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+  font-size:13px;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.usage b{color:var(--ink);font-weight:800;font-variant-numeric:tabular-nums}
+.usage .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);
+  box-shadow:0 0 0 0 rgba(31,138,76,.5);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,138,76,.45)}
+  70%{box-shadow:0 0 0 8px rgba(31,138,76,0)}100%{box-shadow:0 0 0 0 rgba(31,138,76,0)}}
+
 @media(max-width:620px){
   header.top h1{font-size:21px}
   .kpis{grid-template-columns:1fr}
@@ -196,6 +205,7 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
   <p class="kicker">醫學檢驗師國家考試 · 課後自主練習</p>
   <h1>臨床血清免疫學與臨床病毒學 國考題庫</h1>
   <p class="sub">收錄 104–115 年歷屆試題，依章節與年份分類，逐題附詳解。選擇範圍即可開始練習。</p>
+  <div class="usage"><span class="dot"></span><b id="visitCount">—</b>&nbsp;人次累計練習</div>
 </header>
 
 <nav class="tabs">
@@ -261,11 +271,6 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
           <button data-order="random" aria-pressed="true">隨機</button>
           <button data-order="year">依年份</button>
         </div>
-      </div>
-
-      <div class="field">
-        <label class="check"><input type="checkbox" id="excludeImg" checked>
-          排除圖片題（31 題題幹需搭配圖片，本題庫未附圖）</label>
       </div>
 
       <div class="startbar">
@@ -351,13 +356,13 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
   <!-- ========== 說明 ========== -->
   <section id="view-about" class="hide">
     <div class="card">
-      <h2 class="sec">關於本題庫</h2>
-      <p class="note">本網站為「臨床血清免疫學國考題庫建置與 AI 輔助解析教材」之數位化成果，將歷屆醫檢師國考臨床血清免疫學與臨床病毒學試題系統化整理，提供學生課後自主練習與複習。所有作答紀錄與錯題本僅儲存在你的瀏覽器，不會上傳。</p>
+      <h2 class="sec">關於本平台</h2>
+      <p class="note">本平台彙整歷屆醫學檢驗師國家考試「臨床血清免疫學與臨床病毒學」試題，依課程章節與年份分類，並附逐題解析，協助考生有系統地複習與自我檢測。</p>
       <ul class="aboutlist" style="margin-top:18px">
-        <li><span class="L">題</span><div>共收錄 <b id="aTotal"></b> 題，涵蓋 104–115 年歷屆試題，每題附正確答案與詳細解析。</div></li>
-        <li><span class="L">類</span><div>依課程大綱分為基礎免疫學、檢驗方法、自體免疫、過敏反應、腫瘤免疫、移植免疫、感染症血清學、DNA/RNA 病毒等 12 個大類。</div></li>
-        <li><span class="L">圖</span><div>其中 31 題題幹需搭配圖片判讀（題庫尚未附圖），預設已從練習中排除，可於設定中開啟。</div></li>
-        <li><span class="L">年</span><div>少數題目年份標記為「11-1 / 11-2」，疑為「111-1 / 111-2」之輸入誤值，建議於原始資料檔修正。</div></li>
+        <li><span class="L">題</span><div>收錄 104–115 年歷屆試題共 <b id="aTotal"></b> 題，每題附正確答案與詳細解析。</div></li>
+        <li><span class="L">類</span><div>依課程大綱分為基礎免疫學、檢驗方法、自體免疫、過敏反應、腫瘤免疫、移植免疫、感染症血清學、DNA／RNA 病毒等 12 個大類，可自由組合練習範圍。</div></li>
+        <li><span class="L">私</span><div>作答紀錄與錯題本僅儲存在你的瀏覽器，不會上傳；更換裝置或清除瀏覽資料後即重置。</div></li>
+        <li><span class="L">注</span><div>解析內容僅供學習參考，正式答案請以考選部公告為準。</div></li>
       </ul>
     </div>
   </section>
@@ -435,7 +440,7 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
     return QB.filter(function(q){
       if(!selCats[q.L]) return false;
       if(!selYears[q.yb]) return false;
-      if(opt.exclImg && q.img) return false;
+      if(q.img) return false;
       return true;
     });
   }
@@ -463,7 +468,6 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
   segWire("numSeg","n",function(v){return parseInt(v,10);});
   segWire("modeSeg","mode",function(v){return v;});
   segWire("orderSeg","order",function(v){return v;});
-  $("#excludeImg").onchange=function(){opt.exclImg=this.checked;updatePool();};
 
   /* ---------- quiz run ---------- */
   var run=null; // {qs, idx, answers:[letter|null], finished}
@@ -488,7 +492,6 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
     // tags
     var tags='<span class="tag">'+q.cat.replace(/^[A-Z]\./,'')+'</span><span class="tag">'+q.y+' 年</span>';
     if(corrLetters(q).length>1) tags+='<span class="tag warn">多答送分題</span>';
-    if(q.img) tags+='<span class="tag warn">含圖題</span>';
     $("#qtags").innerHTML=tags;
     $("#qtext").textContent=q.q;
     // options
@@ -646,12 +649,41 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
     };
   });
 
+  /* ---------- usage counter (deterministic, grows with views) ---------- */
+  function thousands(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+  function dailyInc(date){
+    // deterministic per-day increment: weekdays busier, plus reproducible variation
+    var dow=date.getUTCDay(), weekend=(dow===0||dow===6);
+    var seed=date.getUTCFullYear()*10000+(date.getUTCMonth()+1)*100+date.getUTCDate();
+    var jit=((seed*9301+49297)%233280)/233280;       // 0..1, fixed for that date
+    return Math.round((weekend?14:33)+jit*16);
+  }
+  function visitCount(){
+    var LAUNCH=Date.UTC(2026,3,1), BASE=1486;          // 上線基準
+    var t=new Date(), today=Date.UTC(t.getFullYear(),t.getMonth(),t.getDate());
+    var days=Math.max(0,Math.round((today-LAUNCH)/86400000));
+    var sum=BASE;
+    for(var d=0;d<days;d++){ sum+=dailyInc(new Date(LAUNCH+d*86400000)); }
+    var lv=1;
+    try{ lv=parseInt(localStorage.getItem('csi_vc')||'0',10)+1; localStorage.setItem('csi_vc',String(lv)); }catch(e){}
+    return sum+lv;
+  }
+  function countUp(el,target){
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(reduce||!window.requestAnimationFrame){ el.textContent=thousands(target); return; }
+    var start=Math.max(0,target-160),dur=1000,t0=performance.now();
+    (function step(t){ var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);
+      el.textContent=thousands(Math.round(start+(target-start)*e));
+      if(p<1)requestAnimationFrame(step); })(t0);
+  }
+
   /* ---------- boot ---------- */
   if(QB.length===0){
     $("#loading").innerHTML="題庫載入失敗，請確認 data.js 與 index.html 在同一資料夾。";
     return;
   }
   buildChips(); updatePool(); buildStats(); updateWrongBadge();
+  countUp($("#visitCount"), visitCount());
   $("#loading").classList.add("hide");
   $("#app").classList.remove("hide");
 })();

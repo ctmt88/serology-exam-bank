@@ -148,11 +148,11 @@ h2.sec{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--f
 .drow .track{height:22px;background:var(--surface-2);border-radius:6px;overflow:hidden}
 .drow .track > i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),#3a9aa0);border-radius:6px;transition:width .5s}
 .drow .n{font-size:13px;color:var(--muted);text-align:right}
-.years{display:flex;align-items:flex-end;gap:5px;height:140px;margin-top:8px;overflow-x:auto;padding-bottom:4px}
-.ybar{flex:1 0 26px;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:26px}
+.years{display:flex;align-items:flex-end;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:2px}
+.ybar{flex:1 0 32px;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:32px}
 .ybar .b{width:100%;background:linear-gradient(180deg,#3a9aa0,var(--teal));border-radius:5px 5px 0 0;transition:height .5s}
 .ybar .yl{font-size:11px;color:var(--faint)}
-.ybar .yn{font-size:10.5px;color:var(--muted)}
+.ybar .yn{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 
 /* wrongbook / empty */
 .empty{text-align:center;padding:40px 20px;color:var(--muted)}
@@ -396,14 +396,14 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
   var catList=[]; // [{L, name, count}]
   (function(){
     var map={};
-    QB.forEach(function(q){ if(!map[q.L]){map[q.L]={L:q.L,name:q.cat,count:0};catList.push(map[q.L]);} map[q.L].count++; });
+    QB.forEach(function(q){ if(!q.L) return; if(!map[q.L]){map[q.L]={L:q.L,name:q.cat,count:0};catList.push(map[q.L]);} map[q.L].count++; });
     catList.sort(function(a,b){return a.L<b.L?-1:1;});
     catList.forEach(function(c){CAT_NAMES[c.L]=c.name;});
   })();
   var yearList=[]; // [{yb,count}]
   (function(){
     var map={};
-    QB.forEach(function(q){ if(!map[q.yb]){map[q.yb]={yb:q.yb,count:0};yearList.push(map[q.yb]);} map[q.yb].count++; });
+    QB.forEach(function(q){ if(!q.L) return; if(!map[q.yb]){map[q.yb]={yb:q.yb,count:0};yearList.push(map[q.yb]);} map[q.yb].count++; });
     yearList.sort(function(a,b){return b.yb-a.yb;});
   })();
 
@@ -610,7 +610,8 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
 
   /* ---------- stats ---------- */
   function buildStats(){
-    $("#kTotal").textContent=QB.length;
+    var statTotal=catList.reduce(function(s,c){return s+c.count},0);
+    $("#kTotal").textContent=statTotal;
     $("#kCat").textContent=catList.length;
     $("#kYear").textContent=yearList.length;
     var maxC=Math.max.apply(null,catList.map(function(c){return c.count}));
@@ -625,14 +626,15 @@ footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-s
     var maxY=Math.max.apply(null,yearList.map(function(y){return y.count}));
     var yd=$("#yearDist"); yd.innerHTML="";
     yearList.slice().sort(function(a,b){return a.yb-b.yb}).forEach(function(y){
+      var h=Math.max(6,Math.round(y.count/maxY*124));
       var bar=document.createElement("div"); bar.className="ybar";
-      bar.innerHTML='<div class="yn">'+y.count+'</div><div class="b" style="height:'+(y.count/maxY*100)+'%"></div><div class="yl">'+y.yb+'</div>';
+      bar.innerHTML='<div class="yn">'+y.count+'</div><div class="b" style="height:'+h+'px"></div><div class="yl">'+y.yb+'</div>';
       yd.appendChild(bar);
     });
     var top=catList.slice().sort(function(a,b){return b.count-a.count}).slice(0,3)
       .map(function(c){return c.name.replace(/^[A-Z]\./,'')});
     $("#topCats").textContent=top.join("、");
-    $("#aTotal").textContent=QB.length;
+    $("#aTotal").textContent=catList.reduce(function(s,c){return s+c.count},0);
   }
 
   /* ---------- view + tab switching ---------- */

@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>臨床血清免疫學與臨床病毒學 · 國考題庫練習</title>
+<style>
+:root{
+  --bg:#eef1f4; --surface:#ffffff; --surface-2:#f7f9fb;
+  --ink:#16202e; --muted:#5d6b7c; --faint:#8a97a6;
+  --line:#dde3ea; --line-strong:#c6cfd9;
+  --teal:#0f6d72; --teal-d:#0a565a; --teal-soft:#e3f0f0;
+  --ok:#1f8a4c; --ok-soft:#e6f4ea;
+  --no:#c23b32; --no-soft:#fbe9e7;
+  --gold:#b07d22; --gold-soft:#f6efdf;
+  --radius:14px; --radius-s:10px;
+  --shadow:0 1px 2px rgba(22,32,46,.05), 0 8px 24px rgba(22,32,46,.06);
+  --font:"PingFang TC","Noto Sans TC","Microsoft JhengHei","Helvetica Neue",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;}
+button{font-family:inherit;cursor:pointer}
+.hide{display:none !important}
+
+/* ---- shell ---- */
+.wrap{max-width:920px;margin:0 auto;padding:0 18px 80px}
+header.top{padding:30px 18px 18px;max-width:920px;margin:0 auto}
+.kicker{font-size:12.5px;letter-spacing:.16em;color:var(--teal);
+  font-weight:700;text-transform:uppercase;margin:0 0 6px}
+header.top h1{font-size:25px;line-height:1.25;margin:0;font-weight:800;letter-spacing:-.01em}
+header.top p.sub{margin:8px 0 0;color:var(--muted);font-size:14.5px}
+
+nav.tabs{position:sticky;top:0;z-index:20;background:rgba(238,241,244,.86);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:18px}
+nav.tabs .inner{max-width:920px;margin:0 auto;display:flex;gap:4px;padding:0 12px;overflow-x:auto}
+nav.tabs button{appearance:none;border:0;background:none;color:var(--muted);
+  font-size:15px;font-weight:600;padding:14px 14px 12px;border-bottom:2.5px solid transparent;
+  white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--teal);border-color:var(--teal)}
+
+/* ---- cards ---- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:22px}
+.card + .card{margin-top:16px}
+.card-pad{padding:22px}
+h2.sec{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  margin:0 0 14px;font-weight:700}
+.field{margin-top:24px}
+.field:first-child{margin-top:0}
+.field > .lab{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.field > .lab .name{font-weight:700;font-size:15px}
+.field > .lab .meta{font-size:13px;color:var(--faint)}
+.linkbtns{display:flex;gap:12px}
+.linkbtns button{border:0;background:none;color:var(--teal);font-size:13px;font-weight:600;padding:0}
+.linkbtns button:hover{text-decoration:underline}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-strong);
+  background:var(--surface);border-radius:999px;padding:7px 13px;font-size:14px;
+  color:var(--ink);transition:.12s;user-select:none}
+.chip:hover{border-color:var(--teal)}
+.chip .L{font-weight:800;color:var(--faint);font-size:12.5px;min-width:14px;text-align:center}
+.chip .ct{color:var(--faint);font-size:12.5px;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.chip[aria-pressed="true"] .L,.chip[aria-pressed="true"] .ct{color:rgba(255,255,255,.82)}
+.chip.year{padding:7px 14px}
+
+/* segmented */
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:var(--radius-s);
+  overflow:hidden;background:var(--surface);flex-wrap:wrap}
+.seg button{border:0;background:none;padding:9px 15px;font-size:14px;font-weight:600;color:var(--muted);
+  border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--teal-soft);color:var(--teal-d)}
+
+.check{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--ink);cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--teal)}
+
+/* primary action */
+.startbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:24px}
+.startbar .count{font-size:14px;color:var(--muted)}
+.startbar .count b{color:var(--ink);font-size:18px;font-weight:800}
+.btn{appearance:none;border:0;border-radius:var(--radius-s);font-weight:700;font-size:15px;
+  padding:13px 22px;transition:.12s}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--teal-d)}
+.btn-primary:disabled{background:var(--line-strong);cursor:not-allowed}
+.btn-ghost{background:var(--surface);color:var(--teal);border:1px solid var(--line-strong)}
+.btn-ghost:hover{border-color:var(--teal)}
+
+/* ---- quiz runner ---- */
+.runtop{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:6px}
+.runtop .pos{font-size:13px;color:var(--faint);font-weight:600}
+.runtop .quit{border:0;background:none;color:var(--faint);font-size:13px;font-weight:600;padding:4px}
+.runtop .quit:hover{color:var(--no)}
+.bar{height:5px;background:var(--line);border-radius:999px;overflow:hidden;margin-bottom:20px}
+.bar > i{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .25s}
+.qtags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tag{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--surface-2);
+  border:1px solid var(--line);color:var(--muted)}
+.tag.warn{background:var(--gold-soft);border-color:#e7d6a8;color:var(--gold)}
+.qtext{font-size:18px;line-height:1.6;font-weight:600;margin:0 0 18px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;gap:13px;align-items:flex-start;text-align:left;width:100%;
+  border:1.5px solid var(--line-strong);background:var(--surface);border-radius:var(--radius-s);
+  padding:14px 15px;font-size:15.5px;line-height:1.5;color:var(--ink);transition:.1s}
+.opt:hover:not(:disabled){border-color:var(--teal);background:var(--teal-soft)}
+.opt .k{flex:0 0 26px;height:26px;border-radius:7px;background:var(--surface-2);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13.5px;color:var(--muted)}
+.opt[data-state="picked"]{border-color:var(--teal)}
+.opt[data-state="correct"]{border-color:var(--ok);background:var(--ok-soft)}
+.opt[data-state="correct"] .k{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt[data-state="wrong"]{border-color:var(--no);background:var(--no-soft)}
+.opt[data-state="wrong"] .k{background:var(--no);border-color:var(--no);color:#fff}
+.opt:disabled{cursor:default}
+.explain{margin-top:16px;border-left:3px solid var(--teal);background:var(--surface-2);
+  border-radius:0 var(--radius-s) var(--radius-s) 0;padding:14px 16px}
+.explain .verdict{font-weight:800;font-size:14px;margin-bottom:6px}
+.explain .verdict.ok{color:var(--ok)} .explain .verdict.no{color:var(--no)}
+.explain .body{font-size:14.5px;color:#33414f;line-height:1.7}
+.runnav{display:flex;justify-content:space-between;gap:12px;margin-top:20px}
+
+/* ---- result ---- */
+.score{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.score .big{font-size:46px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.score .big .slash{color:var(--faint);font-weight:600}
+.score .pct{font-size:16px;color:var(--muted)}
+.breakdown{margin-top:22px;display:flex;flex-direction:column;gap:11px}
+.brow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.brow .nm{font-size:14px}
+.brow .track{height:8px;background:var(--line);border-radius:999px;overflow:hidden;grid-column:1/-1}
+.brow .track > i{display:block;height:100%;background:var(--teal);border-radius:999px}
+.brow .num{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ---- stats ---- */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-s);padding:16px}
+.kpi .v{font-size:28px;font-weight:800;line-height:1}
+.kpi .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+.distrib{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.drow{display:grid;grid-template-columns:170px 1fr 46px;gap:12px;align-items:center}
+.drow .nm{font-size:13.5px;display:flex;gap:7px;align-items:center}
+.drow .nm .L{font-weight:800;color:var(--faint);min-width:16px}
+.drow .track{height:22px;background:var(--surface-2);border-radius:6px;overflow:hidden}
+.drow .track > i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),#3a9aa0);border-radius:6px;transition:width .5s}
+.drow .n{font-size:13px;color:var(--muted);text-align:right}
+.years{display:flex;align-items:flex-end;gap:5px;height:140px;margin-top:8px;overflow-x:auto;padding-bottom:4px}
+.ybar{flex:1 0 26px;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:26px}
+.ybar .b{width:100%;background:linear-gradient(180deg,#3a9aa0,var(--teal));border-radius:5px 5px 0 0;transition:height .5s}
+.ybar .yl{font-size:11px;color:var(--faint)}
+.ybar .yn{font-size:10.5px;color:var(--muted)}
+
+/* wrongbook / empty */
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty .ic{font-size:34px;margin-bottom:10px}
+.wlist{display:flex;flex-direction:column;gap:14px}
+.witem{border:1px solid var(--line);border-radius:var(--radius-s);padding:16px}
+.witem .wq{font-weight:600;margin:0 0 10px;font-size:15.5px}
+.witem .wmeta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.witem .ans{font-size:14px;color:#33414f;line-height:1.7}
+.witem .ans b{color:var(--ok)}
+.witem .rm{margin-top:10px;border:0;background:none;color:var(--no);font-size:13px;font-weight:600;padding:0}
+
+.note{font-size:13.5px;color:var(--muted);line-height:1.7;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:var(--radius-s);padding:14px 16px}
+.note b{color:var(--ink)}
+.aboutlist{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px}
+.aboutlist li{display:flex;gap:12px;font-size:14.5px;line-height:1.7;color:#33414f}
+.aboutlist li .L{flex:0 0 30px;height:30px;border-radius:8px;background:var(--teal-soft);color:var(--teal-d);
+  font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+#loading{text-align:center;padding:80px 20px;color:var(--muted)}
+.spin{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--teal);
+  border-radius:50%;animation:sp 1s linear infinite;margin:0 auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+footer{max-width:920px;margin:30px auto 0;padding:18px;color:var(--faint);font-size:12.5px;text-align:center}
+
+@media(max-width:620px){
+  header.top h1{font-size:21px}
+  .kpis{grid-template-columns:1fr}
+  .drow{grid-template-columns:120px 1fr 40px}
+  .qtext{font-size:16.5px}
+  .score .big{font-size:38px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <p class="kicker">醫學檢驗師國家考試 · 課後自主練習</p>
+  <h1>臨床血清免疫學與臨床病毒學 國考題庫</h1>
+  <p class="sub">收錄 104–115 年歷屆試題，依章節與年份分類，逐題附詳解。選擇範圍即可開始練習。</p>
+</header>
+
+<nav class="tabs">
+  <div class="inner" id="tabs">
+    <button data-view="practice" aria-selected="true">自選練習</button>
+    <button data-view="stats">命題趨勢</button>
+    <button data-view="wrong">錯題本</button>
+    <button data-view="about">說明</button>
+  </div>
+</nav>
+
+<div id="loading"><div class="spin"></div>題庫載入中…</div>
+
+<main class="wrap hide" id="app">
+
+  <!-- ========== 練習設定 ========== -->
+  <section id="view-practice">
+    <div class="card">
+      <h2 class="sec">出題範圍</h2>
+
+      <div class="field">
+        <div class="lab">
+          <span class="name">章節</span>
+          <span class="linkbtns"><button id="catAll">全選</button><button id="catNone">清除</button></span>
+        </div>
+        <div class="chips" id="catChips"></div>
+      </div>
+
+      <div class="field">
+        <div class="lab">
+          <span class="name">年份（民國）</span>
+          <span class="linkbtns"><button id="yrAll">全部年份</button><button id="yrNone">清除</button></span>
+        </div>
+        <div class="chips" id="yrChips"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="sec">練習設定</h2>
+
+      <div class="field">
+        <div class="lab"><span class="name">題數</span></div>
+        <div class="seg" id="numSeg">
+          <button data-n="10" aria-pressed="true">10</button>
+          <button data-n="20">20</button>
+          <button data-n="30">30</button>
+          <button data-n="50">50</button>
+          <button data-n="0">全部</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="lab"><span class="name">模式</span></div>
+        <div class="seg" id="modeSeg">
+          <button data-mode="study" aria-pressed="true">練習（答完即看解析）</button>
+          <button data-mode="exam">測驗（最後對答案）</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="lab"><span class="name">出題順序</span></div>
+        <div class="seg" id="orderSeg">
+          <button data-order="random" aria-pressed="true">隨機</button>
+          <button data-order="year">依年份</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="check"><input type="checkbox" id="excludeImg" checked>
+          排除圖片題（31 題題幹需搭配圖片，本題庫未附圖）</label>
+      </div>
+
+      <div class="startbar">
+        <span class="count">符合範圍 <b id="poolCount">0</b> 題</span>
+        <button class="btn btn-primary" id="startBtn">開始練習</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 練習進行 ========== -->
+  <section id="view-run" class="hide">
+    <div class="card">
+      <div class="runtop">
+        <span class="pos" id="runPos"></span>
+        <button class="quit" id="quitBtn">結束練習</button>
+      </div>
+      <div class="bar"><i id="runBar"></i></div>
+      <div class="qtags" id="qtags"></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="explain hide" id="explain">
+        <div class="verdict" id="verdict"></div>
+        <div class="body" id="expBody"></div>
+      </div>
+      <div class="runnav">
+        <button class="btn btn-ghost" id="prevBtn">上一題</button>
+        <button class="btn btn-primary" id="nextBtn">下一題</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 成績 ========== -->
+  <section id="view-result" class="hide">
+    <div class="card">
+      <h2 class="sec">本輪成績</h2>
+      <div class="score">
+        <div class="big"><span id="rsCorrect">0</span><span class="slash"> / </span><span id="rsTotal">0</span></div>
+        <div class="pct" id="rsPct"></div>
+      </div>
+      <div class="breakdown" id="rsBreak"></div>
+      <div class="runnav" style="margin-top:24px">
+        <button class="btn btn-ghost" id="reviewWrongBtn">檢視本輪錯題</button>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-ghost" id="againBtn">重設範圍</button>
+          <button class="btn btn-primary" id="retryBtn">再練一輪</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 命題趨勢 ========== -->
+  <section id="view-stats" class="hide">
+    <div class="card">
+      <h2 class="sec">題庫概況</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kTotal">0</div><div class="l">總題數</div></div>
+        <div class="kpi"><div class="v" id="kCat">0</div><div class="l">章節大類</div></div>
+        <div class="kpi"><div class="v" id="kYear">0</div><div class="l">涵蓋年份</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="sec">各章節出題頻率</h2>
+      <div class="distrib" id="catDist"></div>
+    </div>
+    <div class="card">
+      <h2 class="sec">各年份題數分佈</h2>
+      <div class="years" id="yearDist"></div>
+      <p class="note" style="margin-top:16px">出題集中於 <b id="topCats"></b> 等章節，可作為複習重點配置與教學調整之依據。</p>
+    </div>
+  </section>
+
+  <!-- ========== 錯題本 ========== -->
+  <section id="view-wrong" class="hide">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <h2 class="sec" style="margin:0">錯題本（<span id="wCount">0</span>）</h2>
+        <button class="btn btn-ghost" id="clearWrong">全部清空</button>
+      </div>
+      <div id="wrongBody" style="margin-top:18px"></div>
+    </div>
+  </section>
+
+  <!-- ========== 說明 ========== -->
+  <section id="view-about" class="hide">
+    <div class="card">
+      <h2 class="sec">關於本題庫</h2>
+      <p class="note">本網站為「臨床血清免疫學國考題庫建置與 AI 輔助解析教材」之數位化成果，將歷屆醫檢師國考臨床血清免疫學與臨床病毒學試題系統化整理，提供學生課後自主練習與複習。所有作答紀錄與錯題本僅儲存在你的瀏覽器，不會上傳。</p>
+      <ul class="aboutlist" style="margin-top:18px">
+        <li><span class="L">題</span><div>共收錄 <b id="aTotal"></b> 題，涵蓋 104–115 年歷屆試題，每題附正確答案與詳細解析。</div></li>
+        <li><span class="L">類</span><div>依課程大綱分為基礎免疫學、檢驗方法、自體免疫、過敏反應、腫瘤免疫、移植免疫、感染症血清學、DNA/RNA 病毒等 12 個大類。</div></li>
+        <li><span class="L">圖</span><div>其中 31 題題幹需搭配圖片判讀（題庫尚未附圖），預設已從練習中排除，可於設定中開啟。</div></li>
+        <li><span class="L">年</span><div>少數題目年份標記為「11-1 / 11-2」，疑為「111-1 / 111-2」之輸入誤值，建議於原始資料檔修正。</div></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>臨床血清免疫學與臨床病毒學國考題庫 · 課後練習平台</footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var QB = window.QB || [];
+  var CAT_NAMES = {}; // letter -> full cat label, ordered
+
+  /* ---------- storage (safe) ---------- */
+  var WK="csi_wrongbook_v1";
+  function loadWrong(){ try{return JSON.parse(localStorage.getItem(WK))||[]}catch(e){return []} }
+  function saveWrong(a){ try{localStorage.setItem(WK,JSON.stringify(a))}catch(e){} }
+  var wrongIds = loadWrong();
+
+  /* ---------- helpers ---------- */
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  function corrLetters(q){ return q.a.split('/'); }       // ['B','C']
+  function isCorrect(q,letter){ return corrLetters(q).indexOf(letter)>=0; }
+  function L2i(l){ return {A:0,B:1,C:2,D:3}[l]; }
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+
+  /* ---------- derive catalogue ---------- */
+  var catList=[]; // [{L, name, count}]
+  (function(){
+    var map={};
+    QB.forEach(function(q){ if(!map[q.L]){map[q.L]={L:q.L,name:q.cat,count:0};catList.push(map[q.L]);} map[q.L].count++; });
+    catList.sort(function(a,b){return a.L<b.L?-1:1;});
+    catList.forEach(function(c){CAT_NAMES[c.L]=c.name;});
+  })();
+  var yearList=[]; // [{yb,count}]
+  (function(){
+    var map={};
+    QB.forEach(function(q){ if(!map[q.yb]){map[q.yb]={yb:q.yb,count:0};yearList.push(map[q.yb]);} map[q.yb].count++; });
+    yearList.sort(function(a,b){return b.yb-a.yb;});
+  })();
+
+  /* ---------- selection state ---------- */
+  var selCats={}, selYears={}, opt={n:10,mode:"study",order:"random",exclImg:true};
+  catList.forEach(function(c){selCats[c.L]=true;});
+  yearList.forEach(function(y){selYears[y.yb]=true;});
+
+  /* ---------- build setup UI ---------- */
+  function buildChips(){
+    var cc=$("#catChips"); cc.innerHTML="";
+    catList.forEach(function(c){
+      var b=document.createElement("button");
+      b.className="chip"; b.setAttribute("aria-pressed", selCats[c.L]);
+      b.innerHTML='<span class="L">'+c.L+'</span><span>'+c.name.replace(/^[A-Z]\./,'')+'</span><span class="ct">'+c.count+'</span>';
+      b.onclick=function(){ selCats[c.L]=!selCats[c.L]; b.setAttribute("aria-pressed",selCats[c.L]); updatePool(); };
+      cc.appendChild(b);
+    });
+    var yc=$("#yrChips"); yc.innerHTML="";
+    yearList.forEach(function(y){
+      var b=document.createElement("button");
+      b.className="chip year"; b.setAttribute("aria-pressed", selYears[y.yb]);
+      b.innerHTML='<span>'+y.yb+'</span><span class="ct">'+y.count+'</span>';
+      b.onclick=function(){ selYears[y.yb]=!selYears[y.yb]; b.setAttribute("aria-pressed",selYears[y.yb]); updatePool(); };
+      yc.appendChild(b);
+    });
+  }
+  function syncChipState(){
+    $$("#catChips .chip").forEach(function(b,i){b.setAttribute("aria-pressed",selCats[catList[i].L]);});
+    $$("#yrChips .chip").forEach(function(b,i){b.setAttribute("aria-pressed",selYears[yearList[i].yb]);});
+  }
+
+  function pool(){
+    return QB.filter(function(q){
+      if(!selCats[q.L]) return false;
+      if(!selYears[q.yb]) return false;
+      if(opt.exclImg && q.img) return false;
+      return true;
+    });
+  }
+  function updatePool(){
+    var n=pool().length;
+    $("#poolCount").textContent=n;
+    $("#startBtn").disabled = n===0;
+    $("#startBtn").textContent = n===0 ? "請至少選一個範圍" : "開始練習";
+  }
+
+  // setup events
+  $("#catAll").onclick=function(){catList.forEach(function(c){selCats[c.L]=true;});syncChipState();updatePool();};
+  $("#catNone").onclick=function(){catList.forEach(function(c){selCats[c.L]=false;});syncChipState();updatePool();};
+  $("#yrAll").onclick=function(){yearList.forEach(function(y){selYears[y.yb]=true;});syncChipState();updatePool();};
+  $("#yrNone").onclick=function(){yearList.forEach(function(y){selYears[y.yb]=false;});syncChipState();updatePool();};
+  function segWire(id,key,cast){
+    $$("#"+id+" button").forEach(function(b){
+      b.onclick=function(){
+        $$("#"+id+" button").forEach(function(x){x.setAttribute("aria-pressed","false")});
+        b.setAttribute("aria-pressed","true");
+        opt[key]=cast(b.dataset[key]);
+      };
+    });
+  }
+  segWire("numSeg","n",function(v){return parseInt(v,10);});
+  segWire("modeSeg","mode",function(v){return v;});
+  segWire("orderSeg","order",function(v){return v;});
+  $("#excludeImg").onchange=function(){opt.exclImg=this.checked;updatePool();};
+
+  /* ---------- quiz run ---------- */
+  var run=null; // {qs, idx, answers:[letter|null], finished}
+  function startRun(reuse){
+    var qs = reuse ? run.qsSource.slice() : pool();
+    if(opt.order==="random") shuffle(qs);
+    else qs.sort(function(a,b){return (a.yb-b.yb)|| (a.L<b.L?-1:1);});
+    var n = opt.n>0 ? Math.min(opt.n,qs.length) : qs.length;
+    qs = qs.slice(0,n);
+    run={ qs:qs, qsSource:qs.slice(), idx:0, answers:qs.map(function(){return null}), mode:opt.mode };
+    show("run"); renderQ();
+  }
+  $("#startBtn").onclick=function(){ startRun(false); };
+  $("#retryBtn").onclick=function(){ startRun(true); };
+  $("#againBtn").onclick=function(){ show("practice"); selectTab("practice"); };
+  $("#quitBtn").onclick=function(){ if(confirm("結束本輪練習？將直接看成績。")) finishRun(); };
+
+  function renderQ(){
+    var q=run.qs[run.idx], picked=run.answers[run.idx], answered=picked!==null;
+    $("#runPos").textContent="第 "+(run.idx+1)+" / "+run.qs.length+" 題";
+    $("#runBar").style.width=((run.idx)/run.qs.length*100)+"%";
+    // tags
+    var tags='<span class="tag">'+q.cat.replace(/^[A-Z]\./,'')+'</span><span class="tag">'+q.y+' 年</span>';
+    if(corrLetters(q).length>1) tags+='<span class="tag warn">多答送分題</span>';
+    if(q.img) tags+='<span class="tag warn">含圖題</span>';
+    $("#qtags").innerHTML=tags;
+    $("#qtext").textContent=q.q;
+    // options
+    var ob=$("#opts"); ob.innerHTML="";
+    ["A","B","C","D"].forEach(function(letter,i){
+      var b=document.createElement("button");
+      b.className="opt"; b.dataset.letter=letter;
+      b.innerHTML='<span class="k">'+letter+'</span><span>'+q.o[i]+'</span>';
+      ob.appendChild(b);
+      b.onclick=function(){ pick(letter); };
+    });
+    var showSol = answered && run.mode==="study";
+    paintOptions(showSol, picked);
+    // explain (study mode, after answer)
+    var ex=$("#explain");
+    if(showSol){
+      ex.classList.remove("hide");
+      var ok=isCorrect(q,picked);
+      var v=$("#verdict"); v.className="verdict "+(ok?"ok":"no");
+      v.textContent= ok ? "答對" : "答錯　正確答案："+q.a;
+      $("#expBody").textContent=q.e;
+    } else ex.classList.add("hide");
+    // nav
+    $("#prevBtn").disabled = run.idx===0;
+    $("#nextBtn").textContent = run.idx===run.qs.length-1 ? "看成績" : "下一題";
+  }
+  function paintOptions(showSol, picked){
+    var q=run.qs[run.idx];
+    $$("#opts .opt").forEach(function(b){
+      var letter=b.dataset.letter; b.removeAttribute("data-state");
+      if(run.mode==="study" && showSol){
+        b.disabled=true;
+        if(isCorrect(q,letter)) b.dataset.state="correct";
+        else if(letter===picked) b.dataset.state="wrong";
+      } else {
+        b.disabled=false;
+        if(letter===picked) b.dataset.state="picked";
+      }
+    });
+  }
+  function pick(letter){
+    var q=run.qs[run.idx], first=run.answers[run.idx]===null;
+    if(run.mode==="study"){
+      if(run.answers[run.idx]!==null) return; // lock after first answer
+      run.answers[run.idx]=letter;
+      if(!isCorrect(q,letter)) addWrong(q.id);
+      renderQ();
+    } else { // exam: just select, can change
+      run.answers[run.idx]=letter;
+      paintOptions(false,letter);
+    }
+  }
+  $("#nextBtn").onclick=function(){
+    if(run.idx===run.qs.length-1){ finishRun(); }
+    else { run.idx++; renderQ(); }
+  };
+  $("#prevBtn").onclick=function(){ if(run.idx>0){run.idx--;renderQ();} };
+
+  function finishRun(){
+    // exam mode: record wrongs now
+    if(run.mode==="exam"){
+      run.qs.forEach(function(q,i){ var p=run.answers[i]; if(p===null||!isCorrect(q,p)) addWrong(q.id); });
+    }
+    var correct=0, byCat={};
+    run.qs.forEach(function(q,i){
+      var p=run.answers[i], ok=p!==null&&isCorrect(q,p);
+      if(ok)correct++;
+      if(!byCat[q.L])byCat[q.L]={ok:0,tot:0};
+      byCat[q.L].tot++; if(ok)byCat[q.L].ok++;
+    });
+    run.correct=correct;
+    $("#rsCorrect").textContent=correct;
+    $("#rsTotal").textContent=run.qs.length;
+    $("#rsPct").textContent="正確率 "+Math.round(correct/run.qs.length*100)+"%";
+    var bd=$("#rsBreak"); bd.innerHTML="";
+    Object.keys(byCat).sort().forEach(function(L){
+      var c=byCat[L], pct=Math.round(c.ok/c.tot*100);
+      var row=document.createElement("div"); row.className="brow";
+      row.innerHTML='<div class="nm">'+CAT_NAMES[L].replace(/^[A-Z]\./,'')+'</div>'+
+        '<div class="num">'+c.ok+'/'+c.tot+'　'+pct+'%</div>'+
+        '<div class="track"><i style="width:'+pct+'%"></i></div>';
+      bd.appendChild(row);
+    });
+    show("result");
+  }
+  $("#reviewWrongBtn").onclick=function(){ selectTab("wrong"); show("wrong"); renderWrong(); window.scrollTo(0,0); };
+
+  /* ---------- wrong book ---------- */
+  function addWrong(id){ if(wrongIds.indexOf(id)<0){wrongIds.push(id);saveWrong(wrongIds);updateWrongBadge();} }
+  function rmWrong(id){ var i=wrongIds.indexOf(id); if(i>=0){wrongIds.splice(i,1);saveWrong(wrongIds);} }
+  function updateWrongBadge(){ $("#wCount").textContent=wrongIds.length; }
+  var byId={}; QB.forEach(function(q){byId[q.id]=q;});
+  function renderWrong(){
+    updateWrongBadge();
+    var box=$("#wrongBody");
+    if(wrongIds.length===0){
+      box.innerHTML='<div class="empty"><div class="ic">○</div>目前沒有錯題。<br>練習時答錯的題目會自動收進這裡，方便日後複習。</div>';
+      $("#clearWrong").classList.add("hide"); return;
+    }
+    $("#clearWrong").classList.remove("hide");
+    var list=document.createElement("div"); list.className="wlist";
+    wrongIds.slice().reverse().forEach(function(id){
+      var q=byId[id]; if(!q) return;
+      var el=document.createElement("div"); el.className="witem";
+      var corr=corrLetters(q).map(function(l){return l+". "+q.o[L2i(l)];}).join("　／　");
+      el.innerHTML='<div class="wmeta"><span class="tag">'+q.cat.replace(/^[A-Z]\./,'')+'</span><span class="tag">'+q.y+' 年</span></div>'+
+        '<p class="wq">'+q.q+'</p>'+
+        '<div class="ans">正確答案　<b>'+corr+'</b><br>'+q.e+'</div>'+
+        '<button class="rm">移出錯題本</button>';
+      el.querySelector(".rm").onclick=function(){ rmWrong(id); renderWrong(); };
+      list.appendChild(el);
+    });
+    box.innerHTML=""; box.appendChild(list);
+  }
+  $("#clearWrong").onclick=function(){ if(confirm("清空整本錯題本？")){wrongIds=[];saveWrong(wrongIds);renderWrong();} };
+
+  /* ---------- stats ---------- */
+  function buildStats(){
+    $("#kTotal").textContent=QB.length;
+    $("#kCat").textContent=catList.length;
+    $("#kYear").textContent=yearList.length;
+    var maxC=Math.max.apply(null,catList.map(function(c){return c.count}));
+    var cd=$("#catDist"); cd.innerHTML="";
+    catList.slice().sort(function(a,b){return b.count-a.count}).forEach(function(c){
+      var row=document.createElement("div"); row.className="drow";
+      row.innerHTML='<div class="nm"><span class="L">'+c.L+'</span>'+c.name.replace(/^[A-Z]\./,'')+'</div>'+
+        '<div class="track"><i style="width:'+(c.count/maxC*100)+'%"></i></div>'+
+        '<div class="n">'+c.count+'</div>';
+      cd.appendChild(row);
+    });
+    var maxY=Math.max.apply(null,yearList.map(function(y){return y.count}));
+    var yd=$("#yearDist"); yd.innerHTML="";
+    yearList.slice().sort(function(a,b){return a.yb-b.yb}).forEach(function(y){
+      var bar=document.createElement("div"); bar.className="ybar";
+      bar.innerHTML='<div class="yn">'+y.count+'</div><div class="b" style="height:'+(y.count/maxY*100)+'%"></div><div class="yl">'+y.yb+'</div>';
+      yd.appendChild(bar);
+    });
+    var top=catList.slice().sort(function(a,b){return b.count-a.count}).slice(0,3)
+      .map(function(c){return c.name.replace(/^[A-Z]\./,'')});
+    $("#topCats").textContent=top.join("、");
+    $("#aTotal").textContent=QB.length;
+  }
+
+  /* ---------- view + tab switching ---------- */
+  var views=["practice","run","result","stats","wrong","about"];
+  function show(v){ views.forEach(function(x){ $("#view-"+x).classList.toggle("hide", x!==v); }); window.scrollTo(0,0); }
+  function selectTab(v){ $$("#tabs button").forEach(function(b){b.setAttribute("aria-selected", b.dataset.view===v);}); }
+  $$("#tabs button").forEach(function(b){
+    b.onclick=function(){
+      var v=b.dataset.view; selectTab(v);
+      if(v==="practice") show("practice");
+      else if(v==="stats"){ show("stats"); }
+      else if(v==="wrong"){ show("wrong"); renderWrong(); }
+      else if(v==="about"){ show("about"); }
+    };
+  });
+
+  /* ---------- boot ---------- */
+  if(QB.length===0){
+    $("#loading").innerHTML="題庫載入失敗，請確認 data.js 與 index.html 在同一資料夾。";
+    return;
+  }
+  buildChips(); updatePool(); buildStats(); updateWrongBadge();
+  $("#loading").classList.add("hide");
+  $("#app").classList.remove("hide");
+})();
+</script>
+</body>
+</html>
